@@ -1,0 +1,23 @@
+name: Port to Android
+
+on:
+  workflow_dispatch:  # <--- This creates the manual "Run" button
+
+permissions:
+  contents: write      # Allows Tekivo to commit code
+  pull-requests: write # Allows Tekivo to create PRs
+
+jobs:
+  tekivo-port:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout iOS Code
+        uses: actions/checkout@v4
+
+      - name: Run Tekivo AI Agent
+        # Points to your custom action in the 'packages/action' folder of your repo
+        uses: Tekivo/tekivo-ai/packages/action@main 
+        with:
+          api-key: ${{ secrets.TEKIVO_API_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ios-path: './' # Points to the root of this repo
